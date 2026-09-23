@@ -6,7 +6,7 @@ type MetaInput = {
   path?: string;
 };
 
-const SITE_URL = "https://rafaysiddiqui.dev";
+const SITE_URL = "https://rafay-siddiqui-portfolio.vercel.app";
 
 function setMeta(name: string, content: string, attr: "name" | "property" = "name") {
   let el = document.head.querySelector<HTMLMetaElement>(`meta[${attr}="${name}"]`);
