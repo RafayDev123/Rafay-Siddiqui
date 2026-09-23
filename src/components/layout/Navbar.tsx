@@ -155,7 +155,7 @@ export function Navbar({ onOpenPalette }: { onOpenPalette: () => void }) {
                     goToSection(item.id);
                     setMobileOpen(false);
                   }}
-                  className="block py-3 text-left font-display text-4xl text-[var(--text)] transition-colors hover:text-[var(--accent)]"
+                  className="block py-3 text-left font-display text-sm text-[var(--text)] transition-colors hover:text-[var(--accent)] min-[400px]:text-base min-[640px]:text-lg"
                 >
                   {item.label}
                 </button>
