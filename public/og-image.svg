@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a0a0c"/>
+      <stop offset="100%" stop-color="#121218"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="80%" cy="10%" r="60%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#ffffff" stroke-opacity="0.04"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <rect x="80" y="80" width="52" height="52" rx="12" fill="none" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="97" y="116" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="22" fill="#f4f2ee">RS</text>
+  <text x="80" y="330" font-family="'Space Grotesk', sans-serif" font-weight="600" font-size="76" fill="#f4f2ee">Rafay Siddiqui</text>
+  <text x="80" y="400" font-family="'Space Grotesk', sans-serif" font-weight="500" font-size="38" fill="#9a9aa5">Frontend Developer</text>
+  <text x="80" y="470" font-family="'JetBrains Mono', monospace" font-size="24" fill="#6366f1">React.js — Next.js — TypeScript — AI-Powered Web Dev</text>
+  <line x1="80" y1="520" x2="1120" y2="520" stroke="#ffffff" stroke-opacity="0.08"/>
+  <text x="80" y="565" font-family="'JetBrains Mono', monospace" font-size="20" fill="#6b6b74">Hyderabad, Pakistan · Available for freelance &amp; full-time roles</text>
+</svg>
