@@ -231,7 +231,7 @@ export function Contact() {
               type="submit"
               className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--text)] px-6 py-3.5 text-sm font-medium text-[var(--bg)] transition-colors hover:bg-[var(--accent)] hover:text-white sm:w-auto"
             >
-              Open email app
+              Submit
             </button>
             <p className="text-xs text-[var(--text-faint)]">
               Your email app will open with the message details ready to send.
