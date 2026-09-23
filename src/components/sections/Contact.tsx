@@ -30,7 +30,7 @@ function isValidEmail(value: string) {
 export function Contact() {
   const [form, setForm] = useState<FormState>(initialState);
   const [errors, setErrors] = useState<Errors>({});
-  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "success">("idle");
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const captchaRef = useRef<ReCAPTCHA>(null);
   const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
@@ -50,10 +50,8 @@ export function Contact() {
     const validationErrors = validate();
     setErrors(validationErrors);
     if (Object.keys(validationErrors).length > 0) return;
-
     if (!recaptchaSiteKey) {
       setErrors({ captcha: "reCAPTCHA is not configured." });
-      setStatus("error");
       return;
     }
     if (!captchaToken) {
@@ -61,29 +59,14 @@ export function Contact() {
       return;
     }
 
-    setStatus("submitting");
-
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          name: form.name,
-          email: form.email,
-          project_type: form.projectType,
-          message: form.message,
-          captchaToken,
-        }),
-      });
-
-      const result = (await response.json()) as { success?: boolean };
-      if (!response.ok || !result.success) throw new Error("Contact submission failed");
-      setStatus("success");
-      setCaptchaToken(null);
-      captchaRef.current?.reset();
-    } catch {
-      setStatus("error");
-    }
+    const subject = encodeURIComponent(`Project inquiry - ${form.projectType}`);
+    const body = encodeURIComponent(
+      `Name: ${form.name}\nEmail: ${form.email}\nProject type: ${form.projectType}\n\n${form.message}`
+    );
+    window.location.href = `${siteConfig.social.email}?subject=${subject}&body=${body}`;
+    setStatus("success");
+    setCaptchaToken(null);
+    captchaRef.current?.reset();
   };
 
   if (status === "success") {
@@ -91,15 +74,37 @@ export function Contact() {
       <section id="contact" className="scroll-mt-16 border-b border-[var(--border)] py-24 sm:py-28" aria-label="Contact">
         <Container className="max-w-xl text-center">
           <CheckCircle2 className="mx-auto h-10 w-10 text-[var(--accent)]" aria-hidden />
-          <h2 className="mt-6 font-display text-2xl font-medium text-[var(--text)]">Message sent successfully.</h2>
+          <h2 className="mt-6 font-display text-2xl font-medium text-[var(--text)]">Email draft ready.</h2>
           <p className="mt-3 text-sm leading-relaxed text-[var(--text-muted)]">
-            Thanks for reaching out. I will get back to you at{" "}
+            Your email app has opened with the project details. Send the message to{" "}
             <a href={siteConfig.social.email} className="text-[var(--accent)] hover:underline">
               {siteConfig.email}
             </a>
             .
           </p>
           <div className="mt-8 flex justify-center gap-4">
+            <div>
+              {recaptchaSiteKey ? (
+                <ReCAPTCHA
+                  ref={captchaRef}
+                  sitekey={recaptchaSiteKey}
+                  onChange={(token) => {
+                    setCaptchaToken(token);
+                    setErrors((current) => ({ ...current, captcha: undefined }));
+                  }}
+                  onExpired={() => setCaptchaToken(null)}
+                  onErrored={() => setCaptchaToken(null)}
+                />
+              ) : (
+                <p className="text-xs text-red-400">reCAPTCHA is not configured.</p>
+              )}
+              {errors.captcha && (
+                <p role="alert" className="mt-1.5 text-xs text-red-400">
+                  {errors.captcha}
+                </p>
+              )}
+            </div>
+
             <button
               onClick={() => {
                 setForm(initialState);
@@ -222,42 +227,14 @@ export function Contact() {
               )}
             </div>
 
-            {/* Honeypot field for basic spam protection — hidden from real users. */}
-            <input type="text" name="company" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
-
-            <div>
-              {recaptchaSiteKey ? (
-                <ReCAPTCHA
-                  ref={captchaRef}
-                  sitekey={recaptchaSiteKey}
-                  onChange={(token) => {
-                    setCaptchaToken(token);
-                    setErrors((current) => ({ ...current, captcha: undefined }));
-                  }}
-                  onExpired={() => setCaptchaToken(null)}
-                  onErrored={() => setCaptchaToken(null)}
-                />
-              ) : (
-                <p className="text-xs text-red-400">reCAPTCHA is not configured.</p>
-              )}
-              {errors.captcha && (
-                <p role="alert" className="mt-1.5 text-xs text-red-400">
-                  {errors.captcha}
-                </p>
-              )}
-            </div>
-
             <button
               type="submit"
-              disabled={status === "submitting"}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--text)] px-6 py-3.5 text-sm font-medium text-[var(--bg)] transition-colors hover:bg-[var(--accent)] hover:text-white disabled:opacity-60 sm:w-auto"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--text)] px-6 py-3.5 text-sm font-medium text-[var(--bg)] transition-colors hover:bg-[var(--accent)] hover:text-white sm:w-auto"
             >
-              {status === "submitting" ? "Sending message..." : "Send message"}
+              Open email app
             </button>
             <p className="text-xs text-[var(--text-faint)]">
-              {status === "error"
-                ? "This message could not be sent. Check the form setup or try again."
-                : "Your message will be sent securely to my email."}
+              Your email app will open with the message details ready to send.
             </p>
           </form>
         </div>
