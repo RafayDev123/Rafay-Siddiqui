@@ -1,12 +1,19 @@
 import type { Project } from "@/data/projects";
 
-/**
- * No real screenshots exist for these projects yet, so previews are built as
- * abstract, on-brand compositions (browser/device frame + wireframe blocks)
- * instead of stock photography or fabricated screenshots.
- */
 export function ProjectVisual({ project, className }: { project: Project; className?: string }) {
   const { accent, kind } = project.visual;
+
+  if (project.image) {
+    return (
+      <div className={className} style={{ background: `linear-gradient(155deg, ${accent}22, transparent 60%), var(--surface)` }}>
+        <img
+          src={project.image}
+          alt={`${project.title} project preview`}
+          className="h-full w-full object-cover"
+        />
+      </div>
+    );
+  }
 
   return (
     <div

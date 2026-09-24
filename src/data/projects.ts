@@ -20,6 +20,7 @@ export type Project = {
   liveUrl?: string;
   githubUrl?: string;
   /** Visual identity used to render the abstract project preview (no fabricated screenshots). */
+  image?: string;
   visual: {
     accent: string; // tailwind-style hex used for gradient/border accents
     kind: "browser" | "mobile" | "dashboard";
@@ -44,6 +45,7 @@ export const projects: Project[] = [
       "Up-to-date content",
       "Responsive interface across breakpoints",
     ],
+    image: undefined,
     visual: { accent: "#6366f1", kind: "browser" },
   },
   {
@@ -57,6 +59,7 @@ export const projects: Project[] = [
     technologies: ["HTML5", "CSS3", "JavaScript"],
     role: "Frontend Developer",
     featured: true,
+    image: "/Ar-dashboard.png",
     visual: { accent: "#22d3ee", kind: "dashboard" },
   },
   {
@@ -70,6 +73,7 @@ export const projects: Project[] = [
     technologies: ["HTML5", "CSS3", "Bootstrap"],
     role: "Frontend Developer",
     featured: true,
+    image: "/Executive-Chauffeur-Service.png",
     visual: { accent: "#f59e0b", kind: "browser" },
   },
   {
@@ -82,6 +86,7 @@ export const projects: Project[] = [
       "A responsive healthcare website centered around usability and patient-friendly navigation.",
     technologies: ["HTML5", "CSS3"],
     role: "Frontend Developer",
+    image: "/Medical-webpage.png",
     visual: { accent: "#34d399", kind: "browser" },
   },
   {
@@ -94,6 +99,7 @@ export const projects: Project[] = [
       "A modern digital-brand website for a technology-focused company, built with an emphasis on clarity and visual identity.",
     technologies: ["HTML5", "CSS3", "JavaScript"],
     role: "Frontend Developer",
+    image: "/Aithoes.png",
     visual: { accent: "#818cf8", kind: "browser" },
   },
   {
@@ -106,6 +112,7 @@ export const projects: Project[] = [
       "A business-facing product catalogue website focused on clear structure and easy browsing.",
     technologies: ["HTML5", "CSS3", "Bootstrap", "JavaScript"],
     role: "Frontend Developer",
+    image: "/Ar-dashboard.png",
     visual: { accent: "#f472b6", kind: "browser" },
   },
   {
@@ -118,6 +125,7 @@ export const projects: Project[] = [
       "A UI-focused web tool built with an emphasis on a clean, usable interface.",
     technologies: ["HTML5", "CSS3", "JavaScript"],
     role: "Frontend Developer",
+    image: "/BeepTool.png",
     visual: { accent: "#60a5fa", kind: "dashboard" },
   },
   {
@@ -130,6 +138,7 @@ export const projects: Project[] = [
       "A service website built around a clear call-to-action and simple navigation.",
     technologies: ["HTML5", "CSS3", "Bootstrap"],
     role: "Frontend Developer",
+    image: "/clean-phone.png",
     visual: { accent: "#a78bfa", kind: "browser" },
   },
   {
@@ -142,6 +151,7 @@ export const projects: Project[] = [
       "A retail brand page focused on product presentation and a straightforward shopping-adjacent layout.",
     technologies: ["HTML5", "CSS3", "Bootstrap"],
     role: "Frontend Developer",
+    image: "/Royal-vapo-store.png",
     visual: { accent: "#fb7185", kind: "mobile" },
   },
 ];
