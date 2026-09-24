@@ -300,6 +300,7 @@
 import { useRef, useState, type FormEvent } from "react";
 import emailjs from "@emailjs/browser";
 import { ArrowUpRight, CheckCircle2, Mail } from "lucide-react";
+import ReCAPTCHA from "react-google-recaptcha";
 import { Container } from "@/components/ui/Container";
 import { GitHubIcon, LinkedInIcon } from "@/components/icons";
 import { siteConfig } from "@/data/site";
@@ -311,7 +312,7 @@ type FormState = {
   message: string;
 };
 
-type Errors = Partial<Record<keyof FormState | "submit", string>>;
+type Errors = Partial<Record<keyof FormState | "submit" | "captcha", string>>;
 
 const initialState: FormState = { name: "", email: "", projectType: "Website / Frontend build", message: "" };
 
@@ -330,10 +331,13 @@ export function Contact() {
   const [form, setForm] = useState<FormState>(initialState);
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<"idle" | "sending" | "success">("idle");
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const captchaRef = useRef<ReCAPTCHA>(null);
   const emailjsServiceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
   const emailjsTemplateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
   const emailjsPublicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+  const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
 
   const validate = (): Errors => {
     const next: Errors = {};
@@ -351,6 +355,16 @@ export function Contact() {
     const validationErrors = validate();
     setErrors(validationErrors);
     if (Object.keys(validationErrors).length > 0) return;
+
+    if (!recaptchaSiteKey) {
+      setErrors({ captcha: "reCAPTCHA is not configured." });
+      return;
+    }
+
+    if (!captchaToken) {
+      setErrors({ captcha: "Please complete the reCAPTCHA challenge." });
+      return;
+    }
 
     if (!formRef.current) {
       setErrors({ submit: "The form could not be submitted. Please try again." });
@@ -376,10 +390,14 @@ export function Contact() {
       );
 
       setForm(initialState);
+      setCaptchaToken(null);
+      captchaRef.current?.reset();
       setStatus("success");
     } catch (error) {
       console.error("EmailJS submission failed:", error);
       setStatus("idle");
+      setCaptchaToken(null);
+      captchaRef.current?.reset();
       setErrors({
         submit: "Something went wrong while sending your message. Please try again.",
       });
@@ -528,6 +546,27 @@ export function Contact() {
               )}
             </div>
 
+            {recaptchaSiteKey ? (
+              <div className="flex justify-start">
+                <ReCAPTCHA
+                  ref={captchaRef}
+                  sitekey={recaptchaSiteKey}
+                  onChange={(token) => {
+                    setCaptchaToken(token || null);
+                    setErrors((current) => ({ ...current, captcha: undefined }));
+                  }}
+                  onExpired={() => setCaptchaToken(null)}
+                  onErrored={() => setCaptchaToken(null)}
+                />
+              </div>
+            ) : (
+              <p className="text-xs text-red-400">reCAPTCHA is not configured.</p>
+            )}
+            {errors.captcha && (
+              <p role="alert" className="text-xs text-red-400">
+                {errors.captcha}
+              </p>
+            )}
             <button
               type="submit"
               disabled={status === "sending"}
