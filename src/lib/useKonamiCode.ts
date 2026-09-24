@@ -20,8 +20,12 @@ export function useKonamiCode() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      const expected = SEQUENCE[progress.current];
-      if (e.key.toLowerCase() === expected.toLowerCase()) {
+      const key = e.key?.toLowerCase?.() ?? "";
+      const expected = (SEQUENCE[progress.current] ?? "").toLowerCase();
+
+      if (!key) return;
+
+      if (key === expected) {
         progress.current += 1;
         if (progress.current === SEQUENCE.length) {
           setTriggered(true);

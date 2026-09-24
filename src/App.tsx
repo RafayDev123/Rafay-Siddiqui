@@ -22,7 +22,8 @@ function AppShell() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+      const key = e.key?.toLowerCase?.() ?? "";
+      if ((e.metaKey || e.ctrlKey) && key === "k") {
         e.preventDefault();
         setPaletteOpen((v) => !v);
       }

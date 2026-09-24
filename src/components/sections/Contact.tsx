@@ -394,12 +394,15 @@ export function Contact() {
       captchaRef.current?.reset();
       setStatus("success");
     } catch (error) {
+      const emailJsError = error as { text?: string };
       console.error("EmailJS submission failed:", error);
       setStatus("idle");
       setCaptchaToken(null);
       captchaRef.current?.reset();
       setErrors({
-        submit: "Something went wrong while sending your message. Please try again.",
+        submit:
+          emailJsError?.text ||
+          "EmailJS rejected the request. Check your service ID, template ID, public key, and template variables.",
       });
     }
   };
