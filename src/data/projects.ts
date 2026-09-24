@@ -45,7 +45,7 @@ export const projects: Project[] = [
       "Up-to-date content",
       "Responsive interface across breakpoints",
     ],
-    image: undefined,
+    image: "/NewsApp.png",
     visual: { accent: "#6366f1", kind: "browser" },
   },
   {
