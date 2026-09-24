@@ -29,6 +29,28 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    id: "saas-fusion",
+    slug: "saas-fusion",
+    title: "SaaS Fusion",
+    category: "SaaS Dashboard / Commerce",
+    tagline: "A premium storefront and analytics hub that blends product discovery with admin control.",
+    description:
+      "A polished SaaS dashboard and storefront concept combining product discovery, secure auth, live analytics, and admin workflows in one responsive experience.",
+    technologies: ["React", "Material UI", "Tailwind CSS", "Bootstrap", "JavaScript"],
+    role: "Frontend Developer",
+    featured: true,
+    liveUrl: "https://stalwart-chebakia-d07da2.netlify.app/",
+    features: [
+      "Glassmorphism-inspired dashboard UI",
+      "Secure onboarding and auth flow",
+      "Live KPI cards and analytics widgets",
+      "Product search, filters, and browsing",
+      "Admin management and commerce operations",
+    ],
+    image: "/Saas-fushion.png",
+    visual: { accent: "#7c3aed", kind: "dashboard" },
+  },
+  {
     id: "news-app",
     slug: "news-app",
     title: "News App",
